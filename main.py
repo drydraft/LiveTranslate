@@ -322,9 +322,9 @@ class LiveTranslateApp:
         if "interim_interval" in settings:
             self._interim_interval = settings["interim_interval"]
         if "target_language" in settings:
+            # Panel has no target-language widget. Overlay/tray own this
+            # value; applying unrelated sliders must not push the combo back.
             self._target_language = settings["target_language"]
-            if self._overlay:
-                self._overlay.set_target_language(self._target_language)
         if "timeout" in settings and self._translator:
             self._translator.set_timeout(settings["timeout"])
         if "auto_save_transcript" in settings:
@@ -454,11 +454,10 @@ class LiveTranslateApp:
         if self._translator:
             self._translator.set_target_language(lang)
         if self._panel:
-            settings = self._panel.get_settings()
-            settings["target_language"] = lang
+            self._panel._current_settings["target_language"] = lang
             from control_panel import _save_settings
 
-            _save_settings(settings)
+            _save_settings(self._panel.get_settings())
 
     def _on_model_changed(self, model_config: dict):
         log.info(
