@@ -110,8 +110,12 @@ class ControlPanel(QWidget):
                 "energy_threshold": 0.02,
                 "min_speech_duration": config["asr"]["min_speech_duration"],
                 "max_speech_duration": config["asr"]["max_speech_duration"],
-                "silence_mode": "auto",
-                "silence_duration": 0.8,
+                "silence_mode": config["asr"].get("silence_mode", "fixed"),
+                "silence_duration": config["asr"].get("silence_duration", 0.4),
+                "incremental_asr": config["asr"].get("incremental_asr", True),
+                "interim_interval": config["asr"].get("interim_interval", 1.5),
+                "timeout": tc.get("timeout", 5),
+                "system_prompt": tc.get("system_prompt"),
                 "asr_language": config["asr"].get("language", "auto"),
                 "asr_engine": "funasr",
                 "funasr_model": config["asr"].get(
@@ -509,7 +513,7 @@ class ControlPanel(QWidget):
 
         self._incremental_asr_cb = QCheckBox(t("label_incremental_asr"))
         self._incremental_asr_cb.setToolTip(t("incremental_asr_tooltip"))
-        self._incremental_asr_cb.setChecked(s.get("incremental_asr", False))
+        self._incremental_asr_cb.setChecked(s.get("incremental_asr", True))
         self._incremental_asr_cb.toggled.connect(self._on_timing_changed)
         self._incremental_asr_cb.toggled.connect(self._auto_save)
         timing_layout.addWidget(self._incremental_asr_cb, 4, 0)
@@ -517,9 +521,9 @@ class ControlPanel(QWidget):
         self._interim_interval_spin = QDoubleSpinBox()
         self._interim_interval_spin.setRange(1.0, 10.0)
         self._interim_interval_spin.setSingleStep(0.5)
-        self._interim_interval_spin.setValue(s.get("interim_interval", 2.0))
+        self._interim_interval_spin.setValue(s.get("interim_interval", 1.5))
         self._interim_interval_spin.setSuffix(" s")
-        self._interim_interval_spin.setEnabled(s.get("incremental_asr", False))
+        self._interim_interval_spin.setEnabled(s.get("incremental_asr", True))
         self._interim_interval_spin.valueChanged.connect(self._on_timing_changed)
         self._interim_interval_spin.valueChanged.connect(self._auto_save)
         self._incremental_asr_cb.toggled.connect(self._interim_interval_spin.setEnabled)

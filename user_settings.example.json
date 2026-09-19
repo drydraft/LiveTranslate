@@ -1,0 +1,58 @@
+{
+  "hub": "hf",
+  "download_proxy": "system",
+  "asr_engine": "funasr",
+  "funasr_model": "sensevoice-small",
+  "vad_mode": "silero",
+  "vad_threshold": 0.45,
+  "energy_threshold": 0.02,
+  "min_speech_duration": 0.4,
+  "max_speech_duration": 5.0,
+  "silence_mode": "fixed",
+  "silence_duration": 0.4,
+  "asr_language": "auto",
+  "target_language": "zh",
+  "models": [
+    {
+      "name": "tencent/Hunyuan-MT-7B",
+      "api_base": "https://api.siliconflow.cn/v1",
+      "api_key": "",
+      "model": "tencent/Hunyuan-MT-7B",
+      "proxy": "none"
+    }
+  ],
+  "active_model": 0,
+  "sensevoice_pad_seconds": 0.5,
+  "whisper_pad_seconds": 0.5,
+  "remote_asr_url": "http://127.0.0.1:8765",
+  "whisper_model_size": "medium",
+  "asr_device": "cuda",
+  "audio_device": null,
+  "mic_device": null,
+  "system_prompt": "You are a real-time subtitle translator. Translate {source_lang} into {target_lang}.\nRules:\n- Output ONLY one single best translation, nothing else.\n- Never include alternatives, parenthetical options, annotations, or explanations.\n- Keep proper nouns, names, and brand names untranslated.\n- Translate repeated expressions concisely, not mechanically word-for-word.\n- Keep subtitles fluent and natural; avoid overly literal or stiff phrasing.\n- Auto-correct likely ASR errors based on context and common sense.",
+  "timeout": 5,
+  "incremental_asr": true,
+  "interim_interval": 1.5,
+  "auto_save_transcript": true,
+  "style": {
+    "preset": "custom",
+    "bg_color": "#000000",
+    "bg_opacity": 38,
+    "header_color": "#000000",
+    "header_opacity": 204,
+    "border_radius": 8,
+    "original_font_family": "Microsoft YaHei",
+    "translation_font_family": "Microsoft YaHei",
+    "original_font_size": 11,
+    "translation_font_size": 15,
+    "original_color": "#00ffff",
+    "translation_color": "#55ff00",
+    "timestamp_color": "#888899",
+    "window_opacity": 70
+  },
+  "subtitle_mode": {
+    "enabled": false,
+    "window_x": 100,
+    "window_y": 450
+  }
+}
